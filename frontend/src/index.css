@@ -39,3 +39,11 @@ main {
 .img-large {
   min-width: 80%;
 }
+
+.img-thumbnail {
+  height: 80px;
+}
+
+.small-container {
+  max-width: 600px;
+}

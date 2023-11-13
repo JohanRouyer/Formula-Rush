@@ -1,6 +1,7 @@
 const data = {
   products: [
     {
+      _id: '1',
       name: 'Red Bull Racing hoodie',
       slug: 'redbull-racing-hoodie',
       category: 'hoodie',
@@ -13,6 +14,7 @@ const data = {
       description: 'high quality hoodie',
     },
     {
+      _id: '2',
       name: 'Ferrari Classic T-shirt',
       slug: 'ferrari-classic-tshirt',
       category: 'T-shirts',
@@ -25,6 +27,7 @@ const data = {
       description: 'Classic red T-shirt with iconic Ferrari logo.',
     },
     {
+      _id: '3',
       name: 'Red Bull Racing jacket',
       slug: 'redbull-racing-jacket',
       category: 'jacket',
@@ -37,6 +40,7 @@ const data = {
       description: 'jacket with Red Bull Racing team colors and logo.',
     },
     {
+      _id: '4',
       name: 'McLaren Performance hoodie',
       slug: 'mclaren-performance-hoodie',
       category: 'hoodie',

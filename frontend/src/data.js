@@ -25,7 +25,7 @@ const data = {
       description: 'Classic red T-shirt with iconic Ferrari logo.',
     },
     {
-      name: 'Red Bull Racing jacket',
+      name: 'Red Bull Racing  jacket',
       slug: 'redbull-racing-jacket',
       category: 'jacket',
       image: '/images/redbull-jacket.png',
@@ -37,8 +37,8 @@ const data = {
       description: 'jacket with Red Bull Racing team colors and logo.',
     },
     {
-      name: 'McLaren Performance hoodie',
-      slug: 'mclaren-performance-hoodie',
+      name: 'McLaren hoodie',
+      slug: 'mclaren-hoodie',
       category: 'hoodie',
       image: '/images/mclaren-hoodie.png',
       price: 49.99,
