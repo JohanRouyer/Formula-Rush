@@ -72,7 +72,16 @@ function App() {
                 <i className="fas fa-bars"></i>
               </Button>
               <LinkContainer to="/">
-                <Navbar.Brand>Formula Rush</Navbar.Brand>
+                <Navbar.Brand>
+                  <img
+                    src="%PUBLIC_URL%/favicon.ico"
+                    alt="Logo"
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                  />{' '}
+                  Formula Rush
+                </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
