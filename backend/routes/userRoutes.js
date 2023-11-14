@@ -30,26 +30,36 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      res.status(400).send({ message: 'This email is already in use.' });
-      return;
+    try {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        throw new Error('This email is already in use.');
+      }
+
+      const newUser = new User({
+        name,
+        email,
+        password: bcrypt.hashSync(password),
+      });
+
+      const user = await newUser.save();
+      res.send({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: generateToken(user),
+      });
+    } catch (error) {
+      if (
+        error.code === 11000 ||
+        error.message.includes('duplicate key error')
+      ) {
+        res.status(400).send({ message: 'This email is already in use.' });
+      } else {
+        res.status(500).send({ message: 'Error during user registration.' });
+      }
     }
-
-    const newUser = new User({
-      name,
-      email,
-      password: bcrypt.hashSync(password),
-    });
-
-    const user = await newUser.save();
-    res.send({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user),
-    });
   })
 );
 
