@@ -63,7 +63,11 @@ function App() {
         {' '}
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar
+            style={{ backgroundColor: 'lightblue' }}
+            variant="dark"
+            expand="lg"
+          >
             <Container>
               <Button
                 variant="dark"
@@ -72,13 +76,18 @@ function App() {
                 <i className="fas fa-bars"></i>
               </Button>
               <LinkContainer to="/">
-                <Navbar.Brand>
+                <Navbar.Brand style={{ color: 'black' }}>
                   <img
-                    src="%PUBLIC_URL%/favicon.ico"
+                    src="/images/logo.png"
                     alt="Logo"
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
+                    style={{
+                      marginLeft: '10px',
+                      marginRight: '10px',
+                      color: 'black',
+                    }}
                   />{' '}
                   Formula Rush
                 </Navbar.Brand>
@@ -87,7 +96,11 @@ function App() {
               <Navbar.Collapse id="basic-navbar-nav">
                 <SearchBox />
                 <Nav className="me-auto  w-100  justify-content-end">
-                  <Link to="/cart" className="nav-link">
+                  <Link
+                    to="/cart"
+                    className="nav-link"
+                    style={{ color: 'black', fontWeight: '500' }}
+                  >
                     Cart
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
@@ -113,7 +126,11 @@ function App() {
                       </Link>
                     </NavDropdown>
                   ) : (
-                    <Link className="nav-link" to="/signin">
+                    <Link
+                      className="nav-link"
+                      to="/signin"
+                      style={{ color: 'black', fontWeight: '500' }}
+                    >
                       Sign In
                     </Link>
                   )}

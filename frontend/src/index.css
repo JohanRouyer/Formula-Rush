@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(255, 251, 251);
 }
 
 .site-container {
@@ -17,7 +18,13 @@ main {
 
 .btn-primary,
 .btn-outline-primary {
-  background-color: #6eb6f1;
+  background-color: lightblue;
+  color: #000000;
+  border: 2px solid lightblue;
+}
+
+.btn-outline-secondary {
+  background-color: rgb(71, 179, 214);
   color: #000000;
 }
 
@@ -67,6 +74,7 @@ main {
 
 .navbar-brand {
   font-weight: bold;
+  color: #000000;
 }
 
 .side-navbar {
