@@ -55,9 +55,9 @@ userRouter.post(
         error.code === 11000 ||
         error.message.includes('duplicate key error')
       ) {
-        res.status(400).send({ message: 'This email is already in use.' });
+        res.status(400).send({ message: 'Error during user registration.' });
       } else {
-        res.status(500).send({ message: 'Error during user registration.' });
+        res.status(500).send({ message: 'This email is already in use.' });
       }
     }
   })
