@@ -26,14 +26,12 @@ export default function SignupScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
 
     try {
-      // Check if the email already exists
       const emailExists = await Axios.get(
         `/api/users/check-email?email=${email}`
       );
@@ -42,7 +40,6 @@ export default function SignupScreen() {
         return;
       }
 
-      // If the email doesn't exist, proceed with user creation
       const { data } = await Axios.post('/api/users/signup', {
         name,
         email,
