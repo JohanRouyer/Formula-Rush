@@ -1,5 +1,5 @@
 function Rating(props) {
-  const { rating, numReviews } = props;
+  const { rating, numReviews, caption } = props;
 
   const getStarClassName = (index) => {
     const roundedRating = Math.round(rating * 2) / 2;
@@ -17,7 +17,11 @@ function Rating(props) {
           <i className={getStarClassName(index)} />
         </span>
       ))}
-      <span>{numReviews} Reviews</span>
+      {caption ? (
+        <span>{caption}</span>
+      ) : (
+        <span>{' ' + numReviews + ' reviews'}</span>
+      )}
     </div>
   );
 }
