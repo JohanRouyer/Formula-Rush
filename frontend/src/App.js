@@ -70,7 +70,11 @@ function App() {
       >
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar
+            style={{ backgroundColor: 'lightblue' }}
+            variant="dark"
+            expand="lg"
+          >
             <Container>
               <Button
                 variant="dark"
@@ -80,14 +84,18 @@ function App() {
               </Button>
 
               <LinkContainer to="/">
-                <Navbar.Brand>Formula Rush</Navbar.Brand>
+                <Navbar.Brand>
+                  <span style={{ color: 'black', marginLeft: '30px' }}>
+                    Formula Rush
+                  </span>
+                </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <SearchBox />
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link">
-                    Cart
+                    <span style={{ color: 'black' }}>Cart</span>
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -95,7 +103,11 @@ function App() {
                     )}
                   </Link>
                   {userInfo ? (
-                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                    <NavDropdown
+                      title={userInfo.name}
+                      id="basic-nav-dropdown"
+                      className="custom-dropdown"
+                    >
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
@@ -113,11 +125,15 @@ function App() {
                     </NavDropdown>
                   ) : (
                     <Link className="nav-link" to="/signin">
-                      Sign In
+                      <span style={{ color: 'black' }}>Sign In</span>
                     </Link>
                   )}
                   {userInfo && userInfo.isAdmin && (
-                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <NavDropdown
+                      title="Admin"
+                      className="custom-dropdown"
+                      id="admin-nav-dropdown"
+                    >
                       <LinkContainer to="/admin/dashboard">
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>

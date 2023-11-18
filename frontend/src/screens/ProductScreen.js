@@ -126,10 +126,10 @@ function ProductScreen() {
       <Row>
         <Col md={6}>
           <img
-            className="img-large"
+            className={'img-large'}
             src={selectedImage || product.image}
             alt={product.name}
-          ></img>
+          />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
