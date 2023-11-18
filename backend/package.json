@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.13.0",
     "bcryptjs": "^2.4.3",
     "bson": "^6.2.0",
     "cloudinary": "^1.41.0",
