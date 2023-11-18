@@ -87,7 +87,7 @@ function App() {
                 <Navbar.Brand style={{ color: 'black' }}>
                   <img
                     src="/images/logo.png"
-                    alt="Logo"
+                    alt="Logo fR"
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
