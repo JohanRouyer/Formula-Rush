@@ -84,10 +84,20 @@ function App() {
               </Button>
 
               <LinkContainer to="/">
-                <Navbar.Brand>
-                  <span style={{ color: 'black', marginLeft: '30px' }}>
-                    Formula Rush
-                  </span>
+                <Navbar.Brand style={{ color: 'black' }}>
+                  <img
+                    src="/images/logo.png"
+                    alt="Logo"
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                    style={{
+                      marginLeft: '10px',
+                      marginRight: '10px',
+                      color: 'black',
+                    }}
+                  />{' '}
+                  Formula Rush
                 </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
