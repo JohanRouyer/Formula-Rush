@@ -37,6 +37,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 export default function UserListScreen() {
   const navigate = useNavigate();
   const [{ loading, error, users, loadingDelete, successDelete }, dispatch] =
@@ -77,7 +78,7 @@ export default function UserListScreen() {
         await axios.delete(`/api/users/${user._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('user deleted successfully');
+        toast.success('User deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (error) {
         toast.error(getError(error));
@@ -87,6 +88,7 @@ export default function UserListScreen() {
       }
     }
   };
+
   return (
     <div>
       <Helmet>
@@ -107,6 +109,7 @@ export default function UserListScreen() {
               <th>NAME</th>
               <th>EMAIL</th>
               <th>IS ADMIN</th>
+              <th>ROLE</th> {/* Nouvelle colonne pour le rôle */}
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -117,6 +120,7 @@ export default function UserListScreen() {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
+                <td>{user.roleId && user.roleId.roleName}</td>
                 <td>
                   <Button
                     type="button"

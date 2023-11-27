@@ -15,7 +15,17 @@ userRouter.get(
     res.send(users);
   })
 );
-
+userRouter.get(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const users = await User.find()
+      .populate('roleId', 'roleName') // Exemple de jointure
+      .select('name email isAdmin roleId'); // Sélectionnez les champs que vous souhaitez
+    res.send(users);
+  })
+);
 userRouter.get(
   '/:id',
   isAuth,
