@@ -4,7 +4,6 @@ import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import { isAuth, isAdmin, generateToken } from '../utils.js';
 import orderRouter from './orderRoutes.js';
-import Order from '../models/orderModel.js';
 
 const userRouter = express.Router();
 
@@ -149,34 +148,12 @@ userRouter.put(
     }
   })
 );
-orderRouter.get(
-  '/orders-with-user',
-  expressAsyncHandler(async (req, res) => {
-    try {
-      const ordersWithUser = await Order.aggregate([
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'userDetails',
-          },
-        },
-        {
-          $unwind: '$userDetails',
-        },
-        {
-          $project: {
-            _id: 1,
-            userName: '$userDetails.name',
-          },
-        },
-      ]);
 
-      res.send(ordersWithUser);
-    } catch (error) {
-      res.status(500).send({ message: 'Internal Server Error' });
-    }
+userRouter.get(
+  '/summary',
+  expressAsyncHandler(async (req, res) => {
+    const numUsers = await User.countDocuments({});
+    res.send({ numUsers });
   })
 );
 

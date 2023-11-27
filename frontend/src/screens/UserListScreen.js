@@ -37,7 +37,6 @@ const reducer = (state, action) => {
       return state;
   }
 };
-
 export default function UserListScreen() {
   const navigate = useNavigate();
   const [{ loading, error, users, loadingDelete, successDelete }, dispatch] =
@@ -88,7 +87,6 @@ export default function UserListScreen() {
       }
     }
   };
-
   return (
     <div>
       <Helmet>
@@ -109,7 +107,6 @@ export default function UserListScreen() {
               <th>NAME</th>
               <th>EMAIL</th>
               <th>IS ADMIN</th>
-              <th>ORDERS</th>
               <th>ACTIONS</th>
             </tr>
           </thead>

@@ -25,6 +25,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 export default function DashboardScreen() {
   const [{ loading, summary, error }, dispatch] = useReducer(reducer, {
     loading: true,
@@ -36,10 +37,21 @@ export default function DashboardScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('/api/orders/summary', {
+        const { data: userSummary } = await axios.get('/api/users/summary', {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+
+        const { data: orderSummary } = await axios.get('/api/orders/summary', {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+
+        dispatch({
+          type: 'FETCH_SUCCESS',
+          payload: {
+            users: userSummary,
+            orders: orderSummary,
+          },
+        });
       } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
@@ -64,8 +76,8 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
-                    {summary.users && summary.users[0]
-                      ? summary.users[0].numUsers
+                    {summary.users && summary.users.numUsers
+                      ? summary.users.numUsers
                       : 0}
                   </Card.Title>
                   <Card.Text> Users</Card.Text>
@@ -76,8 +88,8 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
-                    {summary.orders && summary.users[0]
-                      ? summary.orders[0].numOrders
+                    {summary.orders && summary.orders.numOrders
+                      ? summary.orders.numOrders
                       : 0}
                   </Card.Title>
                   <Card.Text> Orders</Card.Text>
@@ -89,11 +101,11 @@ export default function DashboardScreen() {
                 <Card.Body>
                   <Card.Title>
                     $
-                    {summary.orders && summary.users[0]
-                      ? summary.orders[0].totalSales.toFixed(2)
+                    {summary.orders && summary.orders.totalSales
+                      ? summary.orders.totalSales.toFixed(2)
                       : 0}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text> Total Sales</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
