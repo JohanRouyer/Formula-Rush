@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import { isAuth, isAdmin, generateToken } from '../utils.js';
+import orderRouter from './orderRoutes.js';
+import Order from '../models/orderModel.js';
 
 const userRouter = express.Router();
 
@@ -13,48 +15,6 @@ userRouter.get(
   expressAsyncHandler(async (req, res) => {
     const users = await User.find({});
     res.send(users);
-  })
-);
-
-userRouter.get(
-  '/user-product-count',
-  isAuth,
-  isAdmin,
-  expressAsyncHandler(async (req, res) => {
-    try {
-      const userProductCount = await Order.aggregate([
-        {
-          $group: {
-            _id: '$user',
-            totalProducts: { $sum: { $size: '$orderItems' } },
-          },
-        },
-        {
-          $lookup: {
-            from: 'users',
-            localField: '_id',
-            foreignField: '_id',
-            as: 'user',
-          },
-        },
-        {
-          $unwind: '$user',
-        },
-        {
-          $project: {
-            _id: 0,
-            userId: '$_id',
-            userName: '$user.name',
-            userEmail: '$user.email',
-            totalProducts: 1,
-          },
-        },
-      ]);
-
-      res.send(userProductCount);
-    } catch (error) {
-      res.status(500).send({ message: 'Internal Server Error' });
-    }
   })
 );
 
@@ -186,6 +146,36 @@ userRouter.put(
       });
     } else {
       res.status(404).send({ message: 'User not found' });
+    }
+  })
+);
+orderRouter.get(
+  '/orders-with-user',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const ordersWithUser = await Order.aggregate([
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'userDetails',
+          },
+        },
+        {
+          $unwind: '$userDetails',
+        },
+        {
+          $project: {
+            _id: 1,
+            userName: '$userDetails.name',
+          },
+        },
+      ]);
+
+      res.send(ordersWithUser);
+    } catch (error) {
+      res.status(500).send({ message: 'Internal Server Error' });
     }
   })
 );

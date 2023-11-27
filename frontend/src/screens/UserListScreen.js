@@ -16,7 +16,7 @@ const reducer = (state, action) => {
     case 'FETCH_SUCCESS':
       return {
         ...state,
-        userProductCount: action.payload,
+        users: action.payload,
         loading: false,
       };
     case 'FETCH_FAIL':
@@ -40,13 +40,11 @@ const reducer = (state, action) => {
 
 export default function UserListScreen() {
   const navigate = useNavigate();
-  const [
-    { loading, error, userProductCount, loadingDelete, successDelete },
-    dispatch,
-  ] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, users, loadingDelete, successDelete }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
 
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -55,7 +53,7 @@ export default function UserListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/users/user-product-count`, {
+        const { data } = await axios.get(`/api/users`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -80,7 +78,7 @@ export default function UserListScreen() {
         await axios.delete(`/api/users/${user._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('User deleted successfully');
+        toast.success('user deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (error) {
         toast.error(getError(error));
@@ -111,23 +109,22 @@ export default function UserListScreen() {
               <th>NAME</th>
               <th>EMAIL</th>
               <th>IS ADMIN</th>
-              <th>TOTAL PRODUCTS</th>
+              <th>ORDERS</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
-            {userProductCount.map((user) => (
-              <tr key={user.userId}>
-                <td>{user.userId}</td>
-                <td>{user.userName}</td>
-                <td>{user.userEmail}</td>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user._id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
-                <td>{user.totalProducts}</td>
                 <td>
                   <Button
                     type="button"
                     variant="light"
-                    onClick={() => navigate(`/admin/user/${user.userId}`)}
+                    onClick={() => navigate(`/admin/user/${user._id}`)}
                   >
                     Edit
                   </Button>
