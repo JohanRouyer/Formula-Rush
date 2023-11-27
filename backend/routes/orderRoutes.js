@@ -40,42 +40,49 @@ orderRouter.get(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.aggregate([
+    const summary = await Order.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'orderItems.product',
+          foreignField: '_id',
+          as: 'product',
+        },
+      },
       {
         $group: {
           _id: null,
           numOrders: { $sum: 1 },
           totalSales: { $sum: '$totalPrice' },
+          numUsers: { $sum: { $size: '$user' } },
+          productCategories: {
+            $push: {
+              $arrayElemAt: ['$product.category', 0],
+            },
+          },
         },
       },
-    ]);
-    const users = await User.aggregate([
+
       {
-        $group: {
-          _id: null,
-          numUsers: { $sum: 1 },
-        },
+        $unwind: '$productCategories',
       },
-    ]);
-    const dailyOrders = await Order.aggregate([
       {
         $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          orders: { $sum: 1 },
-          sales: { $sum: '$totalPrice' },
-        },
-      },
-      { $sort: { _id: 1 } },
-    ]);
-    const productCategories = await Product.aggregate([
-      {
-        $group: {
-          _id: '$category',
+          _id: '$productCategories',
           count: { $sum: 1 },
         },
       },
     ]);
-    res.send({ users, orders, dailyOrders, productCategories });
+
+    res.send({ ...summary[0], productCategories: summary.slice(1) });
   })
 );
 
