@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import { isAuth, isAdmin, generateToken } from '../utils.js';
-import orderRouter from './orderRoutes.js';
 
 const userRouter = express.Router();
 
@@ -146,14 +145,6 @@ userRouter.put(
     } else {
       res.status(404).send({ message: 'User not found' });
     }
-  })
-);
-
-userRouter.get(
-  '/summary',
-  expressAsyncHandler(async (req, res) => {
-    const numUsers = await User.countDocuments({});
-    res.send({ numUsers });
   })
 );
 
