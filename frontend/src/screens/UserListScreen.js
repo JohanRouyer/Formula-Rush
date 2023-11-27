@@ -16,7 +16,7 @@ const reducer = (state, action) => {
     case 'FETCH_SUCCESS':
       return {
         ...state,
-        users: action.payload,
+        userProductCount: action.payload,
         loading: false,
       };
     case 'FETCH_FAIL':
@@ -40,11 +40,13 @@ const reducer = (state, action) => {
 
 export default function UserListScreen() {
   const navigate = useNavigate();
-  const [{ loading, error, users, loadingDelete, successDelete }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      error: '',
-    });
+  const [
+    { loading, error, userProductCount, loadingDelete, successDelete },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    error: '',
+  });
 
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -53,7 +55,7 @@ export default function UserListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/users`, {
+        const { data } = await axios.get(`/api/users/user-product-count`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -109,23 +111,23 @@ export default function UserListScreen() {
               <th>NAME</th>
               <th>EMAIL</th>
               <th>IS ADMIN</th>
-              <th>ROLE</th> {/* Nouvelle colonne pour le rôle */}
+              <th>TOTAL PRODUCTS</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
+            {userProductCount.map((user) => (
+              <tr key={user.userId}>
+                <td>{user.userId}</td>
+                <td>{user.userName}</td>
+                <td>{user.userEmail}</td>
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
-                <td>{user.roleId && user.roleId.roleName}</td>
+                <td>{user.totalProducts}</td>
                 <td>
                   <Button
                     type="button"
                     variant="light"
-                    onClick={() => navigate(`/admin/user/${user._id}`)}
+                    onClick={() => navigate(`/admin/user/${user.userId}`)}
                   >
                     Edit
                   </Button>

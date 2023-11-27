@@ -15,17 +15,49 @@ userRouter.get(
     res.send(users);
   })
 );
+
 userRouter.get(
-  '/',
+  '/user-product-count',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const users = await User.find()
-      .populate('roleId', 'roleName') // Exemple de jointure
-      .select('name email isAdmin roleId'); // Sélectionnez les champs que vous souhaitez
-    res.send(users);
+    try {
+      const userProductCount = await Order.aggregate([
+        {
+          $group: {
+            _id: '$user',
+            totalProducts: { $sum: { $size: '$orderItems' } },
+          },
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
+        {
+          $unwind: '$user',
+        },
+        {
+          $project: {
+            _id: 0,
+            userId: '$_id',
+            userName: '$user.name',
+            userEmail: '$user.email',
+            totalProducts: 1,
+          },
+        },
+      ]);
+
+      res.send(userProductCount);
+    } catch (error) {
+      res.status(500).send({ message: 'Internal Server Error' });
+    }
   })
 );
+
 userRouter.get(
   '/:id',
   isAuth,
