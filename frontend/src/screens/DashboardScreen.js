@@ -41,7 +41,8 @@ const DashboardScreen = () => {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-        console.log('Daily Orders:', data.dailyOrders);
+        console.log('Summary:', summary);
+        console.log('Daily Orders:', summary.dailyOrders);
       } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
