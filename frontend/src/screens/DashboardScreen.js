@@ -98,7 +98,7 @@ const DashboardScreen = () => {
           </Row>
           <div className="my-3">
             <h2>Sales</h2>
-            {summary.dailyOrders.length === 0 ? (
+            {summary.dailyOrders && summary.dailyOrders.length === 0 ? (
               <MessageBox>No Sale</MessageBox>
             ) : (
               <Chart
@@ -108,7 +108,7 @@ const DashboardScreen = () => {
                 loader={<div>Loading Chart...</div>}
                 data={[
                   ['Date', 'Sales'],
-                  ...summary.dailyOrders.map((x) => [x._id, x.sales]),
+                  ...(summary.dailyOrders || []).map((x) => [x._id, x.sales]),
                 ]}
               ></Chart>
             )}
